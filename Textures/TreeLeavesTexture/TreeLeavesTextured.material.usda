@@ -1,0 +1,728 @@
+#usda 1.0
+(
+    "Exported from Adobe Substance 3D Painter 11.0.0"
+    defaultPrim = "TreeLeavesTextured_obj"
+)
+
+def "TreeLeavesTextured_obj"
+{
+    def Scope "material"
+    {
+        def Material "lambert6SG" (
+            customData = {
+                dictionary adobe = {
+                    dictionary painter = {
+                        asset painterProject_spp = @C:/Users/space/Documents/Github/3DMODELLINGCLASS/Textures/TreeLeavesTexture/TreeLeavesTextured.spp@
+                    }
+                }
+            }
+        )
+        {
+            asset inputs:basecolor_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_BaseColor.png@
+            asset inputs:compositedNormalDX_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_Normal.png@
+            asset inputs:height_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_Height.png@
+            asset inputs:metallic_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_Metallic.png@
+            asset inputs:opacity_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_BaseColor.png@
+            asset inputs:roughness_tex = @TreeLeavesTextured_textures/TreeLeavesTextured_lambert6SG_Roughness.png@
+            token outputs:adobe:surface.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/AdobeStandardMaterial_4_0Shader.outputs:surface>
+            token outputs:displacement.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/UsdPreviewSurfaceShader.outputs:displacement>
+            token outputs:surface.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/UsdPreviewSurfaceShader.outputs:surface>
+
+            def NodeGraph "UsdPreviewSurface"
+            {
+                def Shader "UsdPreviewSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float3 inputs:diffuseColor.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/diffuseColorTextureShader.outputs:rgb>
+                    float inputs:ior = 1.5
+                    float inputs:metallic.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/metallicTextureShader.outputs:r>
+                    normal3f inputs:normal.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/normalTextureShader.outputs:rgb>
+                    float inputs:roughness.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/roughnessTextureShader.outputs:r>
+                    token outputs:displacement
+                    token outputs:surface
+                }
+
+                def Shader "TexCoordReader"
+                {
+                    uniform token info:id = "UsdPrimvarReader_float2"
+                    token inputs:varname = "st"
+                    float2 outputs:result
+                }
+
+                def Shader "diffuseColorTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:basecolor_tex>
+                    token inputs:sourceColorSpace = "sRGB"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float3 outputs:rgb
+                }
+
+                def Shader "roughnessTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:roughness_tex>
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float outputs:r
+                }
+
+                def Shader "metallicTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:metallic_tex>
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float outputs:r
+                }
+
+                def Shader "normalTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    float4 inputs:bias = (-1, 1, -1, 0)
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:compositedNormalDX_tex>
+                    float4 inputs:scale = (2, -2, 2, 1)
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/UsdPreviewSurface/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    normal3f outputs:rgb
+                }
+            }
+
+            def NodeGraph "AdobeStandardMaterial_4_0"
+            {
+                def Shader "AdobeStandardMaterial_4_0Shader"
+                {
+                    uniform token info:id = "AdobeStandardMaterial_4_0"
+                    float3 inputs:baseColor.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/baseColorTextureShader.outputs:rgb>
+                    float inputs:IOR = 1.5
+                    float inputs:metallic.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/metallicTextureShader.outputs:r>
+                    normal3f inputs:normal.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/normalTextureShader.outputs:rgb>
+                    float inputs:roughness.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/roughnessTextureShader.outputs:r>
+                    token outputs:surface
+                }
+
+                def Shader "TexCoordReader"
+                {
+                    uniform token info:id = "UsdPrimvarReader_float2"
+                    token inputs:varname = "st"
+                    float2 outputs:result
+                }
+
+                def Shader "baseColorTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:basecolor_tex>
+                    token inputs:sourceColorSpace = "sRGB"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float3 outputs:rgb
+                }
+
+                def Shader "roughnessTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:roughness_tex>
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float outputs:r
+                }
+
+                def Shader "metallicTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:metallic_tex>
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float outputs:r
+                }
+
+                def Shader "normalTextureShader"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    float4 inputs:bias = (-1, 1, -1, 0)
+                    asset inputs:file.connect = </TreeLeavesTextured_obj/material/lambert6SG.inputs:compositedNormalDX_tex>
+                    float4 inputs:scale = (2, -2, 2, 1)
+                    token inputs:sourceColorSpace = "raw"
+                    float2 inputs:st.connect = </TreeLeavesTextured_obj/material/lambert6SG/AdobeStandardMaterial_4_0/TexCoordReader.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    normal3f outputs:rgb
+                }
+            }
+        }
+    }
+
+    over "Leaf02_Leaves06_LeavesUpper_Tree"
+    {
+        over "Leaf02_Leaves06_LeavesUpper_Tree" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaf08_Leaves03"
+    {
+        over "LeavesUpper_Tree_Leaf08_Leaves03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf03"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaf02_Leaves05"
+    {
+        over "LeavesUpper_Tree_Leaf02_Leaves05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaf06_Leaves07"
+    {
+        over "LeavesUpper_Tree_Leaf06_Leaves07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf07"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf04"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf02"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf03"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf05"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf04"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf05"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf01"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf04"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf06"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf01"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf06"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf08"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf07"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf02"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf01"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf07"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf03"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf05"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf01"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves03_Leaf05"
+    {
+        over "LeavesUpper_Tree_Leaves03_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf08"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Leaves06_LeavesUpper_Tree_Leaf03"
+    {
+        over "Leaves06_LeavesUpper_Tree_Leaf03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves07_Leaf07"
+    {
+        over "LeavesUpper_Tree_Leaves07_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf08"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf06"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "LeavesUpper_Tree_Leaves05_Leaf04"
+    {
+        over "LeavesUpper_Tree_Leaves05_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaf03_Leaves01_LeavesLower"
+    {
+        over "Tree_Leaf03_Leaves01_LeavesLower" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaf05_Leaves02"
+    {
+        over "Tree_LeavesLower_Leaf05_Leaves02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf04"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaf03_Leaves04"
+    {
+        over "Tree_LeavesLower_Leaf03_Leaves04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf05"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf06"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf06"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf04"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf06"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf06" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf02"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf07"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf02"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf03"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf08"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf08"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf07"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf02"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf02" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf05"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf05" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf01"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf08"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf08" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf07"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf07" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves02_Leaf01"
+    {
+        over "Tree_LeavesLower_Leaves02_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_LeavesLower_Leaves04_Leaf04"
+    {
+        over "Tree_LeavesLower_Leaves04_Leaf04" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+
+    over "Tree_Leaves01_LeavesLower_Leaf01"
+    {
+        over "Tree_Leaves01_LeavesLower_Leaf01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </TreeLeavesTextured_obj/material/lambert6SG>
+        }
+    }
+}
+
